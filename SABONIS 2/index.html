@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Escolar - Tu Tienda Online</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Overlay para menú móvil -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-pencil-alt"></i>
+                <h1>SABONIS, MANGO Y ALKALÁ</h1>
+            </div>
+            <nav class="nav">
+                <ul class="nav-menu">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#" id="productsLink">Productos</a></li>
+                    <li id="loginLinkContainer">
+                        <a href="#" id="loginLink">Iniciar Sesión</a>
+                        <!-- Menú desplegable para usuarios clientes -->
+                        <div class="user-menu" id="userMenu" style="display: none;">
+                            <a href="#" id="menuMiCuenta"><i class="fas fa-user"></i> Mi Cuenta</a>
+                            <a href="#" id="menuVerPedidos"><i class="fas fa-shopping-bag"></i> Ver Pedidos</a>
+                            <a href="#" id="menuFavoritos"><i class="fas fa-heart"></i> Favoritos</a>
+                            <a href="#" id="menuNotificaciones"><i class="fas fa-bell"></i> Notificaciones</a>
+                            <a href="#" id="menuCentroAyuda"><i class="fas fa-question-circle"></i> Centro de Ayuda</a>
+                            <a href="#" id="menuCerrarSesion"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                        </div>
+                        <!-- Menú desplegable para administradores -->
+                        <div class="user-menu admin-menu" id="adminMenu" style="display: none;">
+                            <a href="#" id="menuUsuarios"><i class="fas fa-users"></i> Usuarios</a>
+                            <a href="#" id="menuPedidosAdmin"><i class="fas fa-shopping-bag"></i> Pedidos</a>
+                            <a href="#" id="menuInventario"><i class="fas fa-boxes"></i> Ver Inventario</a>
+                            <a href="#" id="menuEditarItems"><i class="fas fa-edit"></i> Editar Items</a>
+                            <a href="#" id="menuProductosMasVendidos"><i class="fas fa-chart-line"></i> Productos Más Vendidos</a>
+                        </div>
+                    </li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                <div class="admin-mode-indicator" id="adminModeIndicator" style="display: none;">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Modo Administrador</span>
+                </div>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Panel de Administrador -->
+    <section class="admin-dashboard" id="adminDashboard" style="display: none;">
+        <div class="container">
+            <h2 class="section-title" style="color: white; margin-bottom: 2rem;">Panel de Administración</h2>
+            <div class="admin-cards-grid">
+                <div class="admin-card">
+                    <div class="admin-card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Usuarios</h3>
+                    <p>Gestionar clientes registrados</p>
+                    <button class="admin-card-btn" onclick="showUsuarios()">
+                        <i class="fas fa-arrow-right"></i> Entrar
+                    </button>
+                </div>
+                <div class="admin-card">
+                    <div class="admin-card-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h3>Pedidos</h3>
+                    <p>Ver y gestionar pedidos pendientes</p>
+                    <button class="admin-card-btn" onclick="showPedidosAdmin()">
+                        <i class="fas fa-arrow-right"></i> Entrar
+                    </button>
+                </div>
+                <div class="admin-card">
+                    <div class="admin-card-icon">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <h3>Ver Inventario</h3>
+                    <p>Ver productos y stock disponible</p>
+                    <button class="admin-card-btn" onclick="showInventario()">
+                        <i class="fas fa-arrow-right"></i> Entrar
+                    </button>
+                </div>
+                <div class="admin-card">
+                    <div class="admin-card-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>Editar Items</h3>
+                    <p>Editar productos y precios</p>
+                    <button class="admin-card-btn" onclick="showEditarItems()">
+                        <i class="fas fa-arrow-right"></i> Entrar
+                    </button>
+                </div>
+                <div class="admin-card">
+                    <div class="admin-card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Productos Más Vendidos</h3>
+                    <p>Ver estadísticas de ventas</p>
+                    <button class="admin-card-btn" onclick="showProductosMasVendidos()">
+                        <i class="fas fa-arrow-right"></i> Entrar
+                    </button>
+                </div>
+                <div class="admin-card">
+                    <div class="admin-card-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <h3>Cerrar Sesión</h3>
+                    <p>Salir del panel de administración</p>
+                    <button class="admin-card-btn" onclick="logoutFromAdmin()">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-image">
+            <img src="img/banner.jpg" alt="Banner SABONIS, MANGO Y ALKALÁ" id="heroBanner">
+        </div>
+        <div class="hero-content">
+            <h2>Todo lo que necesitas para el colegio</h2>
+            <p>Material escolar de calidad al mejor precio</p>
+            <a href="#productos" class="btn-primary">Ver Productos</a>
+        </div>
+    </section>
+
+    <!-- Productos -->
+    <section class="products" id="productos">
+        <div class="container">
+            <h2 class="section-title">Nuestros Productos</h2>
+            
+            <!-- Ofertas Especiales -->
+            <div class="offers-section-full">
+                <h3>Ofertas Especiales</h3>
+                <div class="offers-grid" id="offersList">
+                    <div class="offer-item">
+                        <div class="offer-image" style="background-image: url('img/ofertas/pack-completo.jpg');">
+                            <div class="offer-overlay"></div>
+                        </div>
+                        <div class="offer-badge">-20%</div>
+                        <div class="offer-content">
+                            <h4>Pack Completo</h4>
+                            <p>Todo lo necesario para empezar el curso</p>
+                            <span class="offer-price">Bs. 29.99</span>
+                        </div>
+                    </div>
+                    <div class="offer-item">
+                        <div class="offer-image" style="background-image: url('img/ofertas/mochila-premium.jpg');">
+                            <div class="offer-overlay"></div>
+                        </div>
+                        <div class="offer-badge">-15%</div>
+                        <div class="offer-content">
+                            <h4>Mochila Premium</h4>
+                            <p>Mochila resistente y cómoda</p>
+                            <span class="offer-price">Bs. 24.99</span>
+                        </div>
+                    </div>
+                    <div class="offer-item">
+                        <div class="offer-image" style="background-image: url('img/ofertas/set-escritura.jpg');">
+                            <div class="offer-overlay"></div>
+                        </div>
+                        <div class="offer-badge">-30%</div>
+                        <div class="offer-content">
+                            <h4>Set de Escritura</h4>
+                            <p>Lápices, bolígrafos y más</p>
+                            <span class="offer-price">Bs. 12.99</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offers-more-container">
+                    <button class="btn-see-more" id="seeMoreOffersBtn">
+                        Ver Más Ofertas
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Nuevos Productos -->
+            <div class="new-products-section-full">
+                <h3>Nuevos Productos</h3>
+                <div class="new-products-grid" id="newProductsList">
+                    <!-- Los nuevos productos se cargarán dinámicamente -->
+                </div>
+                <div class="new-products-more-container">
+                    <button class="btn-see-more" id="seeMoreNewProductsBtn">
+                        Ver Más Productos Nuevos
+                    </button>
+                </div>
+            </div>
+
+            <!-- Categorías -->
+            <div class="categories-section">
+                <h3 class="categories-title">Explorar Categorías</h3>
+                <div class="categories-grid" id="categoriesGrid">
+                    <!-- Las categorías se cargarán dinámicamente -->
+                </div>
+                <div class="load-more-categories-container" id="loadMoreCategoriesContainer" style="display: none;">
+                    <button class="btn-load-more-categories" id="loadMoreCategoriesBtn">
+                        Ver Más Categorías
+                    </button>
+                </div>
+            </div>
+
+            <!-- Noticias -->
+            <div class="news-section">
+                <h3 class="news-title">Noticias</h3>
+                <div class="news-grid">
+                    <div class="news-card">
+                        <div class="news-image" style="background-image: url('img/noticias/aprendizaje.jpg');">
+                            <div class="news-overlay"></div>
+                        </div>
+                        <div class="news-content">
+                            <h4>Material Escolar: Clave para el Éxito Académico</h4>
+                            <p>Descubre cómo el material escolar adecuado puede mejorar significativamente el rendimiento y la motivación de los estudiantes.</p>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-image" style="background-image: url('img/noticias/creatividad.jpg');">
+                            <div class="news-overlay"></div>
+                        </div>
+                        <div class="news-content">
+                            <h4>Fomentar la Creatividad desde la Infancia</h4>
+                            <p>Los materiales artísticos y creativos ayudan a desarrollar la imaginación y habilidades motoras en los más pequeños.</p>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-image" style="background-image: url('img/noticias/organizacion.jpg');">
+                            <div class="news-overlay"></div>
+                        </div>
+                        <div class="news-content">
+                            <h4>Organización y Planificación Escolar</h4>
+                            <p>Aprende cómo una buena organización del material escolar contribuye a crear hábitos de estudio efectivos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de más ofertas -->
+            <div class="more-offers-section" id="moreOffersSection" style="display: none;">
+                <div class="section-header">
+                    <button class="back-button" id="backFromOffersBtn">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                    <h3>Todas las Ofertas Especiales</h3>
+                </div>
+                <div class="offers-grid" id="moreOffersGrid">
+                    <!-- Se cargarán más ofertas aquí -->
+                </div>
+            </div>
+
+            <!-- Vista de más productos nuevos -->
+            <div class="more-new-products-section" id="moreNewProductsSection" style="display: none;">
+                <div class="section-header">
+                    <button class="back-button" id="backFromNewProductsBtn">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                    <h3>Todos los Nuevos Productos</h3>
+                </div>
+                <div class="new-products-grid" id="moreNewProductsGrid">
+                    <!-- Se cargarán más productos nuevos aquí -->
+                </div>
+            </div>
+
+            <!-- Página de Búsqueda de Productos -->
+            <div class="products-search-section" id="productsSearchSection" style="display: none;">
+                <div class="search-header">
+                    <button class="back-button" id="backFromSearchBtn">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                    <h3>Buscar Productos</h3>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-bar-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="productSearchInput" class="search-input" placeholder="Buscar productos...">
+                        <button class="search-clear-btn" id="clearSearchBtn" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="search-content">
+                    <div class="filters-sidebar">
+                        <h4>Filtros</h4>
+                        
+                        <div class="filter-group">
+                            <h5>Marca</h5>
+                            <div class="filter-options" id="brandFilters">
+                                <label class="filter-option">
+                                    <input type="checkbox" value="Sabonis" class="brand-checkbox">
+                                    <span>Sabonis</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" value="Mango" class="brand-checkbox">
+                                    <span>Mango</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" value="Alkala" class="brand-checkbox">
+                                    <span>Alkala</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h5>Categoría</h5>
+                            <div class="filter-options" id="categoryFilters">
+                                <!-- Se generarán dinámicamente -->
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h5>Precio</h5>
+                            <div class="price-range">
+                                <input type="range" id="priceRange" min="0" max="50" value="50" step="0.5">
+                                <div class="price-display">
+                                    <span>Bs. 0 - Bs. <span id="maxPriceDisplay">50</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h5>Ordenar por</h5>
+                            <select id="sortSelect" class="sort-select">
+                                <option value="name-asc">Nombre A-Z</option>
+                                <option value="name-desc">Nombre Z-A</option>
+                                <option value="price-asc">Precio: Menor a Mayor</option>
+                                <option value="price-desc">Precio: Mayor a Menor</option>
+                            </select>
+                        </div>
+
+                        <button class="btn-reset-filters" id="resetFiltersBtn">
+                            Limpiar Filtros
+                        </button>
+                    </div>
+
+                    <div class="products-results">
+                        <div class="results-header">
+                            <p id="resultsCount">Mostrando todos los productos</p>
+                        </div>
+                        <div class="products-grid" id="allProductsGrid">
+                            <!-- Todos los productos se cargarán aquí -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de productos por categoría -->
+            <div class="category-products-section" id="categoryProductsSection" style="display: none;">
+                <div class="category-header">
+                    <button class="back-button" id="backButton">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                    <h3 id="categoryTitle">Productos</h3>
+                </div>
+                <div class="products-grid" id="categoryProductsGrid">
+                    <!-- Los productos de la categoría se cargarán dinámicamente -->
+                </div>
+                <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+                    <button class="btn-load-more" id="loadMoreBtn">
+                        Ver Más Productos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Login -->
+    <div class="auth-modal" id="loginModal" style="display: none;">
+        <div class="auth-modal-content">
+            <div class="auth-modal-header">
+                <h3>Iniciar Sesión</h3>
+                <button class="auth-modal-close" id="closeLoginModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="auth-modal-body">
+                <div class="auth-toggle">
+                    <button class="auth-toggle-btn active" id="loginToggleBtn">Tengo cuenta</button>
+                    <button class="auth-toggle-btn" id="registerToggleBtn">Crear cuenta</button>
+                </div>
+                
+                <!-- Formulario de Login -->
+                <form id="loginForm" class="auth-form" autocomplete="off" novalidate>
+                    <!-- Campos ocultos para confundir al autocompletar del navegador -->
+                    <input type="text" style="display:none" autocomplete="off">
+                    <input type="password" style="display:none" autocomplete="off">
+                    <div class="form-group">
+                        <label for="loginIdentifier">Número o Correo</label>
+                        <input type="text" id="loginIdentifier" name="loginIdentifier" class="form-input" autocomplete="nope" data-lpignore="true" data-form-type="other" spellcheck="false" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Contraseña</label>
+                        <input type="password" id="loginPassword" name="loginPassword" class="form-input" autocomplete="nope" data-lpignore="true" spellcheck="false" required>
+                    </div>
+                    <button type="submit" class="btn-auth-submit">Iniciar Sesión</button>
+                </form>
+
+                <!-- Formulario de Registro -->
+                <form id="registerForm" class="auth-form" style="display: none;" autocomplete="off" novalidate>
+                    <!-- Campos ocultos para confundir al autocompletar del navegador -->
+                    <input type="text" style="display:none" autocomplete="off">
+                    <input type="password" style="display:none" autocomplete="off">
+                    <div class="form-group">
+                        <label for="registerFirstName">Nombres</label>
+                        <input type="text" id="registerFirstName" name="registerFirstName" class="form-input" autocomplete="nope" data-lpignore="true" data-form-type="other" spellcheck="false" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerLastName">Apellidos</label>
+                        <input type="text" id="registerLastName" name="registerLastName" class="form-input" autocomplete="nope" data-lpignore="true" data-form-type="other" spellcheck="false" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPhone">Número de Teléfono</label>
+                        <input type="tel" id="registerPhone" name="registerPhone" class="form-input" autocomplete="nope" data-lpignore="true" data-form-type="other" spellcheck="false" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Correo Electrónico</label>
+                        <input type="email" id="registerEmail" name="registerEmail" class="form-input" autocomplete="nope" data-lpignore="true" data-form-type="other" spellcheck="false" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Contraseña</label>
+                        <input type="password" id="registerPassword" name="registerPassword" class="form-input" autocomplete="new-password" data-lpignore="true" spellcheck="false" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPasswordConfirm">Confirmar Contraseña</label>
+                        <input type="password" id="registerPasswordConfirm" name="registerPasswordConfirm" class="form-input" autocomplete="new-password" data-lpignore="true" spellcheck="false" required>
+                    </div>
+                    <button type="submit" class="btn-auth-submit">Crear Cuenta</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrito de Compras -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Carrito de Compras</h3>
+            <button class="close-cart" id="closeCart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">Tu carrito está vacío</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <strong>Total: <span id="cartTotal">€0.00</span></strong>
+            </div>
+            <button class="btn-checkout" id="checkoutBtn">Finalizar Compra</button>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- Secciones del Menú de Usuario -->
+    
+    <!-- Mi Cuenta -->
+    <div class="user-section" id="miCuentaSection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" id="backFromMiCuentaBtn">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <h2>Mi Cuenta</h2>
+            </div>
+            <div class="account-content">
+                <form id="accountForm" class="account-form">
+                    <div class="form-group">
+                        <label for="accountFirstName">Nombres</label>
+                        <input type="text" id="accountFirstName" class="form-input" autocomplete="nope" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountLastName">Apellidos</label>
+                        <input type="text" id="accountLastName" class="form-input" autocomplete="nope" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountPhone">Número de Teléfono</label>
+                        <input type="tel" id="accountPhone" class="form-input" autocomplete="nope" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountEmail">Correo Electrónico</label>
+                        <input type="email" id="accountEmail" class="form-input" autocomplete="nope" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountPassword">Nueva Contraseña (dejar en blanco para no cambiar)</label>
+                        <input type="password" id="accountPassword" class="form-input" autocomplete="new-password">
+                    </div>
+                    <button type="submit" class="btn-auth-submit">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ver Pedidos -->
+    <div class="user-section" id="verPedidosSection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" id="backFromPedidosBtn">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <h2>Mis Pedidos</h2>
+            </div>
+            <div class="orders-content">
+                <div id="ordersList">
+                    <p class="empty-message">No tienes pedidos aún</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favoritos -->
+    <div class="user-section" id="favoritosSection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" id="backFromFavoritosBtn">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <h2>Mis Favoritos</h2>
+            </div>
+            <div class="favorites-content">
+                <div class="products-grid" id="favoritesGrid">
+                    <p class="empty-message">No tienes productos favoritos aún</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificaciones -->
+    <div class="user-section" id="notificacionesSection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" id="backFromNotificacionesBtn">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <h2>Notificaciones</h2>
+            </div>
+            <div class="notifications-content">
+                <div id="notificationsList">
+                    <p class="empty-message">No tienes notificaciones</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secciones de Administrador -->
+    <!-- Usuarios -->
+    <div class="user-section" id="usuariosSection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" id="backFromUsuariosBtn">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <h2>Usuarios Registrados</h2>
+            </div>
+            <div class="account-content">
+                <div id="usuariosList">
+                    <p class="empty-message">Cargando usuarios...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pedidos Admin -->
+    <div class="user-section" id="pedidosAdminSection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" id="backFromPedidosAdminBtn">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <h2>Pedidos Pendientes</h2>
+            </div>
+            <div class="orders-content">
+                <div id="pedidosAdminList">
+                    <p class="empty-message">Cargando pedidos...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventario -->
+    <div class="user-section" id="inventarioSection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" id="backFromInventarioBtn">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <h2>Inventario de Productos</h2>
+            </div>
+            <div class="account-content">
+                <div id="inventarioList">
+                    <p class="empty-message">Cargando inventario...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Editar Items -->
+    <div class="user-section" id="editarItemsSection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" id="backFromEditarItemsBtn">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <h2>Editar Items del Inventario</h2>
+            </div>
+            <div class="account-content">
+                <div id="editarItemsList">
+                    <p class="empty-message">Cargando productos...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Productos Más Vendidos -->
+    <div class="user-section" id="productosMasVendidosSection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" id="backFromProductosMasVendidosBtn">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <h2>Productos Más Vendidos</h2>
+            </div>
+            <div class="account-content">
+                <div id="productosMasVendidosList">
+                    <p class="empty-message">Cargando estadísticas...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Centro de Ayuda -->
+    <div class="user-section" id="centroAyudaSection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" id="backFromAyudaBtn">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <h2>Centro de Ayuda y Soporte</h2>
+            </div>
+            <div class="help-content">
+                <div class="help-form-container">
+                    <h3>¿Necesitas ayuda? Envíanos un mensaje</h3>
+                    <form id="helpForm" class="help-form">
+                        <div class="form-group">
+                            <label for="helpSubject">Asunto</label>
+                            <select id="helpSubject" class="form-input" required>
+                                <option value="">Selecciona un asunto</option>
+                                <option value="pregunta">Pregunta General</option>
+                                <option value="problema">Reportar un Problema</option>
+                                <option value="pedido">Consulta sobre Pedido</option>
+                                <option value="producto">Consulta sobre Producto</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="helpMessage">Mensaje</label>
+                            <textarea id="helpMessage" class="form-input" rows="6" placeholder="Describe tu consulta o problema aquí..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-auth-submit">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="contacto">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Material Escolar</h3>
+                    <p>Tu tienda de confianza para todo el material escolar que necesitas.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces</h4>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#productos">Productos</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-phone"></i> +591 70156746</p>
+                    <p><i class="fas fa-envelope"></i> castillojosue151@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Calle 2, El Alto, La Paz</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Síguenos</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Material Escolar. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
